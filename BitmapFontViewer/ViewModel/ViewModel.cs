@@ -190,8 +190,18 @@ namespace BitmapFontViewer
                 return;
             }
 
+
+            if (string.IsNullOrWhiteSpace(SearchChar))
+            {
+                return;
+            }
+
+            byte ku = 0;
+            byte ten = 0;
+            GetCharKuTen(SearchChar[0], out ku, out ten);
+
             BitmapImage fontBitmap = new BitmapImage(new Uri(BitmapFileName));
-            CroppedBitmap croppedBitmap = new CroppedBitmap(fontBitmap, new Int32Rect(30, 20, 105, 50));
+            CroppedBitmap croppedBitmap = new CroppedBitmap(fontBitmap, new Int32Rect(FontWidth * (ten - 1), FontHeight * (ku - 1), FontWidth, FontHeight));
 
             CharBitmap = croppedBitmap; 
         }
@@ -200,7 +210,21 @@ namespace BitmapFontViewer
 
         #region メソッド
 
+        void GetCharKuTen(char character, out byte ku, out byte ten)
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Encoding iso2022jp = Encoding.GetEncoding("iso-2022-jp");
+            byte[] bytes = iso2022jp.GetBytes(new char[] {character});
+            if (bytes.Length < 5)
+            {
+                ku = 0;
+                ten = 0;
+                return;
+            }
 
+            ku = (byte)(bytes[3] - 0x20);
+            ten = (byte)(bytes[4] - 0x20);
+        }
 
         #endregion
 
