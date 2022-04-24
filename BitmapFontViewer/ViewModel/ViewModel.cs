@@ -1,14 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace BitmapFontViewer
@@ -97,7 +93,7 @@ namespace BitmapFontViewer
             }
         }
 
-        private int[] _magnificationComboItem = {1, 2, 3, 4};
+        private int[] _magnificationComboItem = { 1, 2, 3, 4 };
         /// <summary>
         /// コンボボックスアイテム
         /// </summary>
@@ -185,12 +181,6 @@ namespace BitmapFontViewer
                 return;
             }
 
-            if (Magnification == 0)
-            {
-                return;
-            }
-
-
             if (string.IsNullOrWhiteSpace(SearchChar))
             {
                 return;
@@ -203,7 +193,7 @@ namespace BitmapFontViewer
             BitmapImage fontBitmap = new BitmapImage(new Uri(BitmapFileName));
             CroppedBitmap croppedBitmap = new CroppedBitmap(fontBitmap, new Int32Rect(FontWidth * (ten - 1), FontHeight * (ku - 1), FontWidth, FontHeight));
 
-            CharBitmap = croppedBitmap; 
+            CharBitmap = croppedBitmap;
         }
 
         #endregion コマンドメソッド
@@ -214,7 +204,7 @@ namespace BitmapFontViewer
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             Encoding iso2022jp = Encoding.GetEncoding("iso-2022-jp");
-            byte[] bytes = iso2022jp.GetBytes(new char[] {character});
+            byte[] bytes = iso2022jp.GetBytes(new char[] { character });
             if (bytes.Length < 5)
             {
                 ku = 0;
