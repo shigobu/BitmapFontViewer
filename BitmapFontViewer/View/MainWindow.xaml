@@ -1,0 +1,36 @@
+﻿<Window x:Class="BitmapFontViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BitmapFontViewer" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" SizeToContent="WidthAndHeight" MinWidth="200" WindowStartupLocation="CenterScreen">
+    <StackPanel Margin="5">
+        <DockPanel Margin="3">
+            <Button DockPanel.Dock="Right" Content="Bitmap指定" Command="{Binding OpenBitmapCommand}"/>
+            <TextBlock Text="{Binding BitmapFileName}" VerticalAlignment="Center"/>
+        </DockPanel>
+        <StackPanel Margin="3" Orientation="Horizontal">
+            <TextBlock Text="フォントサイズ"/>
+            <TextBlock Margin="10, 0, 3 , 0" Text="幅"/>
+            <TextBox Width="30" Text="{Binding FontWidth}"/>
+            <TextBlock Margin="5, 0, 3, 0" Text="高さ"/>
+            <TextBox Width="30" Text="{Binding FontHeight}"/>
+        </StackPanel>
+        <DockPanel Margin="3">
+            <TextBlock DockPanel.Dock="Left" Text="検索文字 "/>
+            <TextBox Text="{Binding SearchChar}"/>
+        </DockPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="3" Text="倍率 " VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding MagnificationComboItem}" SelectedValue="{Binding Magnification}" Margin="3" Width="50"/>
+            <Button Margin="3" Content="更新" Command="{Binding UpdateCommand}"/>
+        </StackPanel>
+        <Image Source="{Binding CharBitmap}" Stretch="None" HorizontalAlignment="Left" RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="NearestNeighbor">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX="{Binding Magnification}" ScaleY="{Binding Magnification}"/>
+            </Image.RenderTransform>
+        </Image>
+    </StackPanel>
+</Window>
