@@ -135,6 +135,21 @@ namespace BitmapFontViewer
                 RaisePropertyChanged();
             }
         }
+
+        private string _FontBinaryString = "";
+        /// <summary>
+        /// フォントのバイナリ情報の文字列
+        /// </summary>
+        public string FontBinaryString
+        {
+            get => _FontBinaryString;
+            set
+            {
+                if (_FontBinaryString == value) return;
+                _FontBinaryString = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion プロパティ
 
         #region コマンド
@@ -194,6 +209,26 @@ namespace BitmapFontViewer
             CroppedBitmap croppedBitmap = new CroppedBitmap(fontBitmap, new Int32Rect(FontWidth * (ten - 1), FontHeight * (ku - 1), FontWidth, FontHeight));
 
             CharBitmap = croppedBitmap;
+
+            //バイナリデーテータ文字列の作成
+            int stride;
+            if (croppedBitmap.Format.BitsPerPixel == 1)
+            {
+                stride = (int)Math.Ceiling((croppedBitmap.PixelWidth * croppedBitmap.Format.BitsPerPixel) / 8.0);
+            }
+            else
+            {
+                stride = croppedBitmap.PixelWidth * (croppedBitmap.Format.BitsPerPixel / 8);
+            }
+            byte[] pixels = new byte[stride * croppedBitmap.PixelHeight];
+            croppedBitmap.CopyPixels(Int32Rect.Empty, pixels, stride, 0);
+            //前回の値を削除
+            FontBinaryString = "";
+            foreach(byte pixel in pixels)
+            {
+                FontBinaryString += Convert.ToString((byte)~pixel,2).PadLeft(8, '0');
+                FontBinaryString += Environment.NewLine;
+            }
         }
 
         #endregion コマンドメソッド

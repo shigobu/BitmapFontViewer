@@ -28,9 +28,10 @@
             <Button Margin="3" Content="更新" Command="{Binding UpdateCommand}"/>
         </StackPanel>
         <Image Source="{Binding CharBitmap}" Stretch="None" HorizontalAlignment="Left" RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="NearestNeighbor">
-            <Image.RenderTransform>
+            <Image.LayoutTransform>
                 <ScaleTransform ScaleX="{Binding Magnification}" ScaleY="{Binding Magnification}"/>
-            </Image.RenderTransform>
+            </Image.LayoutTransform>
         </Image>
+        <TextBox AcceptsReturn="True" IsReadOnly="true" Text="{Binding FontBinaryString}"/>
     </StackPanel>
 </Window>
